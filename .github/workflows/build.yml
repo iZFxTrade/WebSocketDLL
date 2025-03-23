@@ -1,20 +1,26 @@
-name: Build WebSocket DLL
+name: Build DLL
 
-on: [push]
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
   build:
     runs-on: windows-latest
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout source
+        uses: actions/checkout@v3
 
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1.1
 
-      - name: Build DLL
+      - name: Build Solution
         run: msbuild WebSocketDLL.vcxproj /p:Configuration=Release
 
-      - name: Upload build artifact
+      - name: Upload DLL artifact
         uses: actions/upload-artifact@v3
         with:
           name: WebSocketDLL
